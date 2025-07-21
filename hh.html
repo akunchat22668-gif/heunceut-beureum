@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSC | Telegram Spambot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: black;
+      position: relative;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video#bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -2;
+      object-fit: cover;
+      filter: brightness(0.15);
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 500px;
+      padding: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+      color: #fff;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% {opacity: 0; transform: translateY(-20px);}
+      100% {opacity: 1; transform: translateY(0);}
+    }
+
+    .container img {
+      width: 100px;
+      display: block;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      border: 2px solid red;
+    }
+
+    h2 {
+      text-align: center;
+      color: red;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px red;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: red;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff2e2e;
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    .terminal {
+      width: 100%;
+      height: 160px;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      color: #00ff00;
+      font-size: 1rem;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      transition: 0.3s;
+    }
+
+    .terminal:focus {
+      outline: none;
+      border-color: red;
+      box-shadow: 0 0 10px red;
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay loop muted id="bg-video">
+    <source src="https://cdn.pixabay.com/vimeo/352202812/loop-21292.mp4?width=640&hash=fd9d4f773a10df267659292b27e2c14e66053f4e" type="video/mp4">
+    Browser lu gak support video background.
+  </video>
+
+  <div class="wrapper">
+    <div class="container">
+      <h2>SMILEXPLOIT</h2>
+      <form id="spamForm">
+        <input type="text" id="token" placeholder="Token Bot" required>
+        <input type="text" id="chatid" placeholder="Chat ID nya" required>
+        <input type="number" id="jumlah" placeholder="Jumlah Spam" required>
+        <textarea id="pesan" rows="4" placeholder="Isi pesan nya..." required></textarea>
+        <button type="submit">Start Attack</button>
+      </form>
+      <footer>&copy; SMILEXPLOIT - 2025</footer>
+    </div>
+
+    <div class="terminal" id="terminal" contenteditable="true"></div>
+  </div>
+
+  <!-- Notifikasi suara -->
+  <audio id="notifSound" src="https://www.myinstants.com/media/sounds/anime-wow-sound-effect.mp3" preload="auto"></audio>
+
+  <script>
+    document.getElementById("spamForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const token = document.getElementById("token").value;
+      const chatid = document.getElementById("chatid").value;
+      const jumlah = parseInt(document.getElementById("jumlah").value);
+      const pesan = document.getElementById("pesan").value;
+      const terminal = document.getElementById("terminal");
+      const sound = document.getElementById("notifSound");
+
+      terminal.textContent = "Started Spam To Bot...\n";
+
+      for (let i = 0; i < jumlah; i++) {
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ chat_id: chatid, text: pesan })
+          });
+
+          if (res.ok) {
+            terminal.textContent += `[✔] Pesan ${i + 1} terkirim\n`;
+          } else {
+            terminal.textContent += `[✘] Gagal mengirim pesan ${i + 1}\n`;
+          }
+
+        } catch (err) {
+          terminal.textContent += `[ERROR] ${err.message}\n`;
+        }
+
+        sound.currentTime = 0;
+        sound.play();
+
+        await new Promise(r => setTimeout(r, 500));
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+
+      terminal.textContent += "Process Successfully\n";
+      sound.play();
+    });
+  </script>
+
+</body>
+</html>
