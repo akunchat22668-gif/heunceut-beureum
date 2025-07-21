@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Finder | FSC Tools</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video#bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -2;
+      object-fit: cover;
+      filter: brightness(0.15);
+    }
+
+    .login-container {
+      width: 90%;
+      max-width: 450px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+      color: #fff;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      color: red;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px red;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      background: red;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #ff2e2e;
+    }
+
+    #results {
+      margin-top: 1rem;
+      text-align: left;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .found {
+      color: #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+    }
+
+    .not-found {
+      color: #ff4d4d;
+      text-shadow: 0 0 5px #ff0000;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop id="bg-video">
+    <source src="https://cdn.pixabay.com/video/2016/08/16/7713-182627822_large.mp4" type="video/mp4" />
+  </video>
+
+  <div class="login-container">
+    <h2>ADMIN FINDER</h2>
+    <input type="text" id="urlInput" placeholder="Masukkan domain target (tanpa https://)">
+    <button onclick="scanAdminPanel()">Cari Admin Panel</button>
+    <div id="results"></div>
+  </div>
+
+  <script>
+    const adminPaths = [
+      "admin", "administrator", "adminpanel", "admincp", "cp", "wp-admin", "wp-login.php",
+      "dashboard", "login", "user/login", "backend", "cms", "controlpanel", "panel", "manage",
+      "adminarea", "admin_area", "admin-console", "console", "server", "system", "root", 
+      "config", "conf", "admin123", "admin1", "admin2", "admin_area", "adminlogin", "admin_login",
+      "admin/home", "admin/index", "admin.php", "panel/login", "admincontrol", "webadmin", 
+      "login/admin", "adminpanel", "admin/account", "secureadmin", "adminsecure", "adminzone"
+    ];
+
+    async function scanAdminPanel() {
+      const domain = document.getElementById("urlInput").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
+
+      if (!domain) {
+        resultsDiv.innerHTML = "<p class='not-found'>Masukkan domain terlebih dahulu.</p>";
+        return;
+      }
+
+      for (const path of adminPaths) {
+        const url = `https://${domain}/${path}`;
+        try {
+          const response = await fetch(url, { method: "HEAD" });
+
+          if (response.status === 200) {
+            resultsDiv.innerHTML += `<p class="found">[+] Ditemukan: <a href="${url}" target="_blank">${url}</a></p>`;
+          } else {
+            resultsDiv.innerHTML += `<p class="not-found">[-] Tidak: ${url}</p>`;
+          }
+        } catch (e) {
+          resultsDiv.innerHTML += `<p class="not-found">[!] Error: ${url}</p>`;
+        }
+      }
+    }
+  </script>
+</body>
+</html>
