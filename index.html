@@ -122,6 +122,7 @@
     <button onclick="login2()">DECODE BASE64</button>
     <button onclick="login3()">ENCODE BASE64</button>
     <button onclick="login4()">ADMIN PAGE FINDER</button>
+    <button onclick="login5()">IP LOOKUP</button>
   </div>
 
   <script>
@@ -184,6 +185,22 @@
 
         setTimeout(() => {
           window.location.href = "adminfind.html"; // Halaman utama
+        }, 800);
+      } else {
+        alert("PASSWORD SALAH!");
+      }
+    }
+    
+    function login5() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "xhamz" && pass === "xhamz") {
+        const box = document.getElementById("loginBox");
+        box.classList.add("fade-out");
+
+        setTimeout(() => {
+          window.location.href = "lookup.html"; // Halaman utama
         }, 800);
       } else {
         alert("PASSWORD SALAH!");
