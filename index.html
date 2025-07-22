@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login | SMILEXPLOIT</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
@@ -118,94 +118,37 @@
     <h2>SILAHKAN LOGIN</h2>
     <input type="text" id="username" placeholder="Username" autocomplete="off">
     <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">ATTACK BOT</button>
-    <button onclick="login2()">DECODE BASE64</button>
-    <button onclick="login3()">ENCODE BASE64</button>
-    <button onclick="login4()">ADMIN PAGE FINDER</button>
-    <button onclick="login5()">IP LOOKUP</button>
+    <button onclick="tryLogin('hh.html')">ATTACK BOT</button>
+    <button onclick="tryLogin('decode.html')">DECODE BASE64</button>
+    <button onclick="tryLogin('encode.html')">ENCODE BASE64</button>
+    <button onclick="tryLogin('adminfind.html')">ADMIN PAGE FINDER</button>
+    <button onclick="tryLogin('lookup.html')">IP LOOKUP</button>
+    <button onclick="tryLogin('bot.html')">TEROR BOT</button>
   </div>
 
   <script>
-    function login() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+    async function tryLogin(targetPage) {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      if (user === "xhamz" && pass === "xhamz") {
-        const box = document.getElementById("loginBox");
-        box.classList.add("fade-out");
+      try {
+        const res = await fetch('login.json');
+        const data = await res.json();
 
-        setTimeout(() => {
-          window.location.href = "hh.html"; // Halaman utama
-        }, 800);
-      } else {
-        alert("Haha! IDIOT!");
-      }
-    }
-
-    // Fungsi untuk pindah halaman
-    function login2() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-
-      if (user === "xhamz" && pass === "xhamz") {
-        const box = document.getElementById("loginBox");
-        box.classList.add("fade-out");
-
-        setTimeout(() => {
-          window.location.href = "decode.html"; // Halaman utama
-        }, 800);
-      } else {
-        alert("Password salah gblk");
-      }
-    }
-
-    function login3() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-
-      if (user === "xhamz" && pass === "xhamz") {
-        const box = document.getElementById("loginBox");
-        box.classList.add("fade-out");
-
-        setTimeout(() => {
-          window.location.href = "encode.html"; // Halaman utama
-        }, 800);
-      } else {
-        alert("PASSWORD WRONG!");
-      }
-    }
-    
-    function login4() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-
-      if (user === "xhamz" && pass === "xhamz") {
-        const box = document.getElementById("loginBox");
-        box.classList.add("fade-out");
-
-        setTimeout(() => {
-          window.location.href = "adminfind.html"; // Halaman utama
-        }, 800);
-      } else {
-        alert("PASSWORD SALAH!");
-      }
-    }
-    
-    function login5() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-
-      if (user === "xhamz" && pass === "xhamz") {
-        const box = document.getElementById("loginBox");
-        box.classList.add("fade-out");
-
-        setTimeout(() => {
-          window.location.href = "lookup.html"; // Halaman utama
-        }, 800);
-      } else {
-        alert("PASSWORD SALAH!");
+        if (username === data.username && password === data.password) {
+          document.getElementById("loginBox").classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = targetPage;
+          }, 800);
+        } else {
+          alert("Login gagal. Coba lagi!");
+        }
+      } catch (err) {
+        alert("Terjadi kesalahan saat cek login.");
+        console.error(err);
       }
     }
   </script>
+
 </body>
 </html>
