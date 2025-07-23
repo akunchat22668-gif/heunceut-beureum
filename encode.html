@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Base64 Encoder | SMILEXPLOIT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maintenance</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
     * {
@@ -51,50 +51,27 @@
       animation: fadeIn 1s ease-in-out;
     }
 
+    .login-container img {
+      width: 90px;
+      border-radius: 50%;
+      border: 2px solid red;
+      margin-bottom: 1rem;
+    }
+
     h2 {
       color: red;
       margin-bottom: 1.5rem;
       text-shadow: 0 0 10px red;
     }
 
-    textarea {
-      width: 100%;
-      height: 100px;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: none;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.4);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      resize: none;
+    p {
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
-    .output {
-      margin-top: 1rem;
-      padding: 0.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
-      word-break: break-word;
-    }
-
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 0.75rem;
-      background: red;
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #ff2e2e;
+    .fade-out {
+      animation: fadeOut 0.8s forwards;
     }
 
     @keyframes fadeIn {
@@ -108,31 +85,15 @@
   </style>
 </head>
 <body>
-
-  <video autoplay loop muted id="bg-video">
-    <source src="https://cdn.pixabay.com/vimeo/352202812/loop-21292.mp4?width=640&hash=fd9d4f773a10df267659292b27e2c14e66053f4e" type="video/mp4">
-    Browser tidak support video background.
+  <video autoplay muted loop id="bg-video">
+    <source src="https://cdn.pixabay.com/video/2019/06/21/24361-351321754_large.mp4" type="video/mp4">
+    Browser kamu nggak support video background.
   </video>
 
   <div class="login-container">
-    <h2>Base64 Encoder</h2>
-    <textarea id="textInput" placeholder="Masukkan teks untuk di-encode..."></textarea>
-    <button onclick="encodeBase64()">ENCODE</button>
-    <div class="output" id="encodedResult">Hasil encode akan muncul di sini...</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Maintenance">
+    <h2>Oops! Maintenance!</h2>
+    <p>untuk fitur ini sedang ada dalam tahap perbaikan, silahkan coba lagi nanti.</p>
   </div>
-
-  <script>
-    function encodeBase64() {
-      const input = document.getElementById("textInput").value;
-      const output = document.getElementById("encodedResult");
-
-      try {
-        const encoded = btoa(input);
-        output.textContent = encoded;
-      } catch (e) {
-        output.textContent = "❌ Gagal encode. Pastikan teks valid!";
-      }
-    }
-  </script>
 </body>
 </html>
